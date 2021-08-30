@@ -1,11 +1,12 @@
 import { LoginPayload, authActions } from './authSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, fork, put, take } from '@redux-saga/core/effects';
+import { call, delay, fork, put, take } from '@redux-saga/core/effects';
 import {push} from 'connected-react-router'
 
 
 function* handleLogin(payload:LoginPayload){
     try {
+        yield delay(1000)
         localStorage.setItem('access_token','fake__token')
         yield put(authActions.loginSuccess(payload))
         yield put(push('/admin'))
