@@ -3,18 +3,20 @@ import counterReducer from '../features/counter/counterSlice';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
 import authReducers from 'features/auth/authSlice';
-import {connectRouter,routerMiddleware} from 'connected-react-router'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { history } from 'utils/history';
-const sagaMiddleware=createSagaMiddleware()
-const rootReducer=combineReducers({
-  router:connectRouter(history),
+import dashboardReducer from 'features/dashboard/dashboardSlice';
+const sagaMiddleware = createSagaMiddleware()
+const rootReducer = combineReducers({
+  router: connectRouter(history),
   counter: counterReducer,
-    auth:authReducers
+  auth: authReducers,
+  dashboard: dashboardReducer
 })
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware,routerMiddleware(history)),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware, routerMiddleware(history)),
 });
 sagaMiddleware.run(rootSaga)
 export type AppDispatch = typeof store.dispatch;
