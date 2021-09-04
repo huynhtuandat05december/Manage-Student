@@ -15,9 +15,7 @@ export interface StudentTableProps {
 
 export default function StudentTable ({studentList}: StudentTableProps) {
   const classes = useStyles();
-  const {list} =useAppSelector(state=>state.city)
-  console.log(list)
-  console.log(list.find(item=>item.code==='dn'))
+  const {cityList} =useAppSelector(state=>state.city)
   return (
     <TableContainer component={Paper}>
         <Table className={classes.table} size="small" aria-label="simple table">
@@ -43,7 +41,7 @@ export default function StudentTable ({studentList}: StudentTableProps) {
                     { student.mark}
                   </Box>
                 </TableCell>
-                <TableCell>{list.find(item=>item.code===student.city)?.name}</TableCell>
+                <TableCell>{cityList.find(item=>item.code===student.city)?.name}</TableCell>
                 <TableCell align="right">
                   <Button
                     size="small"

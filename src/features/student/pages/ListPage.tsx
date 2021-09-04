@@ -5,6 +5,8 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import StudentTable from '../components/StudentTable';
 import { studentAction } from '../studentSlice';
 import { Pagination } from '@material-ui/lab';
+import StudentFilter from '../components/StudentFilter';
+import { ListParams } from 'models';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +35,7 @@ export default function ListPage () {
   const history = useHistory();
 
   const {list,loading,pagination,filter} =useAppSelector(state=>state.student)
+  const {cityList}=useAppSelector(state=>state.city)
   const dispatch = useAppDispatch();
   const classes = useStyles();
 
@@ -49,6 +52,17 @@ export default function ListPage () {
       })
     );
   };
+  const handleSearchChange=(newFilter:ListParams)=>{
+    dispatch(
+      studentAction.setFilterWithDebounce(newFilter)
+    )
+
+  }
+  const handleFilterChange=(newFilter:ListParams)=>{
+    dispatch(
+      studentAction.setFilter(newFilter)
+    )
+  }
   return (
     <Box className={classes.root}>
     {loading && <LinearProgress className={classes.loading} />}
@@ -62,6 +76,14 @@ export default function ListPage () {
         </Button>
       </Link>
     </Box>
+    <Box mb={3}>
+        <StudentFilter
+          filter={filter}
+          cityList={cityList}
+          onChange={handleFilterChange}
+          onSearchChange={handleSearchChange}
+        />
+      </Box>
     <StudentTable
       studentList={list}
     />

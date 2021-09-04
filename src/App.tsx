@@ -9,9 +9,6 @@ import Admin from 'components/Layout/Admin';
 import Login from 'features/auth/pages/LoginPage';
 
 function App() {
-  useEffect(() => {
-    cityApi.getAll().then((res) => console.log(res));
-  }, []);
   return (
     <div>
       <Switch>

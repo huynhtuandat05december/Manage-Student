@@ -4,13 +4,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CityState {
     loading: boolean;
-    list: City[];
+    cityList: City[];
 
 }
 
 const initialState: CityState = {
     loading: false,
-    list: [],
+    cityList: [],
 
 }
 
@@ -23,7 +23,7 @@ const citySlice = createSlice({
         },
         fetchDataSuccess(state, action: PayloadAction<ListResponse<City>>) {
             state.loading = false;
-            state.list = action.payload.data
+            state.cityList = action.payload.data
         },
         fetchFailed(state, action) {
             state.loading = false
