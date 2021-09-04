@@ -1,9 +1,10 @@
-import { Box, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, LinearProgress, makeStyles, TablePagination, Typography } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import  React, { useEffect } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import StudentTable from '../components/StudentTable';
 import { studentAction } from '../studentSlice';
+import { Pagination } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,16 +32,23 @@ export default function ListPage () {
   const match = useRouteMatch();
   const history = useHistory();
 
-  const {list,loading} =useAppSelector(state=>state.student)
+  const {list,loading,pagination,filter} =useAppSelector(state=>state.student)
   const dispatch = useAppDispatch();
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(studentAction.fetchData({
-      _page:1,
-      _limit:15
-    }));
-  }, [dispatch]);
+    dispatch(studentAction.fetchData(
+      filter
+    ));
+  }, [dispatch,filter]);
+  const handlePageChange = (e: any, page: number) => {
+    dispatch(
+      studentAction.setFilter({
+        ...filter,
+        _page: page,
+      })
+    );
+  };
   return (
     <Box className={classes.root}>
     {loading && <LinearProgress className={classes.loading} />}
@@ -57,6 +65,17 @@ export default function ListPage () {
     <StudentTable
       studentList={list}
     />
+     <Box my={2} display="flex" justifyContent="center">
+        <Pagination
+          color="primary"
+          count={Math.ceil(pagination._totalRows / pagination._limit)}
+          page={pagination?._page}
+          onChange={handlePageChange}
+          
+        />
+        </Box>
+      
+      
     </Box>
   );
 }

@@ -1,6 +1,8 @@
 import { Box, Button, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { useAppSelector } from 'app/hooks';
 import { Student } from 'models';
 import * as React from 'react';
+import { capitalizeString, getMarkColor } from 'utils/common';
 const useStyles = makeStyles((theme) => ({
     table: {},
     edit: {
@@ -12,7 +14,10 @@ export interface StudentTableProps {
 }
 
 export default function StudentTable ({studentList}: StudentTableProps) {
-const classes = useStyles();
+  const classes = useStyles();
+  const {list} =useAppSelector(state=>state.city)
+  console.log(list)
+  console.log(list.find(item=>item.code==='dn'))
   return (
     <TableContainer component={Paper}>
         <Table className={classes.table} size="small" aria-label="simple table">
@@ -32,13 +37,13 @@ const classes = useStyles();
               <TableRow key={student.id}>
                 <TableCell width={310}>{student.id}</TableCell>
                 <TableCell>{student.name}</TableCell>
-                <TableCell>{student.gender}</TableCell>
+                <TableCell>{ capitalizeString( student.gender)}</TableCell>
                 <TableCell>
-                  <Box color={student.mark} fontWeight="bold">
-                    {student.mark}
+                  <Box color={getMarkColor( student.mark)} fontWeight="bold">
+                    { student.mark}
                   </Box>
                 </TableCell>
-                <TableCell>{student.city}</TableCell>
+                <TableCell>{list.find(item=>item.code===student.city)?.name}</TableCell>
                 <TableCell align="right">
                   <Button
                     size="small"

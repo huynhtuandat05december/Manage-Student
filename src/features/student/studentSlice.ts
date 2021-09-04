@@ -5,8 +5,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface StudentState {
     loading: boolean;
     list: Student[];
-    filter?: ListParams;
-    pagination?: PaginationParams;
+    filter: ListParams;
+    pagination: PaginationParams;
 }
 const initialState: StudentState = {
     loading: false,
@@ -38,7 +38,10 @@ const studentSlice = createSlice({
         },
         fetchDataFailed(state, action) {
             state.loading = false
-        }
+        },
+        setFilter(state, action: PayloadAction<ListParams>) {
+            state.filter = action.payload;
+        },
     }
 })
 
