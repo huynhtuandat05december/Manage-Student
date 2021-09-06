@@ -6,7 +6,7 @@ import StudentTable from '../components/StudentTable';
 import { studentAction } from '../studentSlice';
 import { Pagination } from '@material-ui/lab';
 import StudentFilter from '../components/StudentFilter';
-import { ListParams } from 'models';
+import { ListParams, Student } from 'models';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +63,9 @@ export default function ListPage () {
       studentAction.setFilter(newFilter)
     )
   }
+  const handleEditStudent = async (student: Student) => {
+    history.push(`${match.url}/${student.id}`);
+  };
   return (
     <Box className={classes.root}>
     {loading && <LinearProgress className={classes.loading} />}
@@ -86,6 +89,7 @@ export default function ListPage () {
       </Box>
     <StudentTable
       studentList={list}
+      onEdit={handleEditStudent}
     />
      <Box my={2} display="flex" justifyContent="center">
         <Pagination

@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 export interface StudentTableProps {
-    studentList:Student[]
+    studentList:Student[];
+    onEdit: (student: Student) => void;
 }
 
-export default function StudentTable ({studentList}: StudentTableProps) {
+export default function StudentTable ({studentList,onEdit}: StudentTableProps) {
   const classes = useStyles();
   const {cityList} =useAppSelector(state=>state.city)
   return (
@@ -47,6 +48,7 @@ export default function StudentTable ({studentList}: StudentTableProps) {
                     size="small"
                     className={classes.edit}
                     color="primary"
+                    onClick={() => onEdit(student)}
                   >
                     Edit
                   </Button>
